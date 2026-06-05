@@ -16,9 +16,8 @@ The workflow was designed for comparing hydrological memory across large samples
 
 For each catchment, autocorrelation is calculated for a range of lag times:
 
-[
-r(L) = \mathrm{Corr}(Q_t, Q_{t+L})
-]
+
+r(L) = Corr(Q_t, Q_{t+L})
 
 where:
 
@@ -38,9 +37,7 @@ The output of this step is a full autocorrelation function (ACF) for each catchm
 
 The positive portion of each ACF is approximated using:
 
-[
-r(L)=e^{-L/\tau}
-]
+r(L) = exp(-L / tau)
 
 where:
 
@@ -50,15 +47,11 @@ where:
 
 Taking logarithms gives:
 
-[
-\log(r)=sL
-]
+log(r) = slope * L
 
 where:
 
-[
-\tau=-\frac{1}{s}
-]
+tau = -1 / slope
 
 A weighted through-origin regression is fitted using the number of valid observation pairs at each lag as weights.
 
@@ -124,9 +117,7 @@ Contains one row per catchment.
 
 Characteristic exponential decay timescale:
 
-[
-r(\tau)=e^{-1}\approx0.368
-]
+r(tau) = exp(-1) ≈ 0.368
 
 Larger values indicate slower decay of autocorrelation and greater hydrological memory.
 
@@ -136,9 +127,8 @@ Larger values indicate slower decay of autocorrelation and greater hydrological 
 
 Lag at which the fitted exponential decay reaches 50%:
 
-[
-\mathrm{half_life}=\tau\ln(2)
-]
+
+half_life = tau * log(2)
 
 Because half-life and tau are derived from the same fitted model, they contain equivalent information expressed on different scales.
 
@@ -156,13 +146,17 @@ Low values may indicate multiple characteristic timescales, strong seasonality, 
 
 ##### slope
 
-Slope of the fitted relationship:
+Slope of the fitted log-linear decay relationship:
 
-[
-\log(r)=sL
-]
+log(r) = s × lag_days
 
-More negative slopes correspond to faster memory loss.
+where:
+
+- r = autocorrelation
+- lag_days = lag length in days
+- s = fitted decay coefficient (reported as `slope` in the output table)
+
+More negative values of s correspond to faster autocorrelation decay and shorter hydrological memory.
 
 ---
 
@@ -194,9 +188,7 @@ Unlike `lag_cross0`, this value is not interpolated.
 
 Interpolated lag where autocorrelation falls below a threshold value of:
 
-[
 r = 0.05
-]
 
 This can be interpreted as a practical estimate of memory duration.
 
